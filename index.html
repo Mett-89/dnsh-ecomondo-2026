@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DNSH in pratica — Ecomondo 2026</title><style>
+@font-face{font-family:Montserrat;font-weight:300;src:url(assets/font/montserrat-latin-300-normal.woff2) format('woff2')}
+@font-face{font-family:Montserrat;font-weight:400;src:url(assets/font/montserrat-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Montserrat;font-weight:600;src:url(assets/font/montserrat-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:Montserrat;font-weight:700;src:url(assets/font/montserrat-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'League Spartan';font-weight:600;src:url(assets/font/league-spartan-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'League Spartan';font-weight:700;src:url(assets/font/league-spartan-latin-700-normal.woff2) format('woff2')}
+:root{--scuro:#1A3C34;--verde:#1D3B36;--testo:#00411D;--acc:#2E9E57;--salvia:#8FB39A;--salvia2:#DDE8DA;--crema:#FFFBEC;
+--crema2:#FEFFE9;--grigio:#5F6B63;--box:#2D5C4A;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#0d1f1b;overflow:hidden;font-family:Montserrat,Arial,sans-serif;color:var(--testo)}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility 0s .5s}
+.slide.active{opacity:1;visibility:visible;transition:opacity .5s var(--ease)}
+.frame{position:absolute;inset:0;overflow:hidden}
+.colbg{position:absolute;left:0;top:0;width:657px;height:1080px;background:var(--scuro)}
+.crema{position:absolute;left:657px;top:0;right:0;height:1080px;background:var(--crema)}
+.logo{position:absolute;object-fit:contain}
+.logo.eko{left:1631px;top:35px;width:240px;height:132px}
+.logo.ta{left:768px;top:899px;width:348px;height:82px}
+.logo.eco{left:1200px;top:894px;width:348px;height:113px}
+.logo.tea{left:1664px;top:894px;width:153px;height:96px}
+.logo.ecomondo{left:51px;top:896px;width:211px;height:51px}
+.b{position:absolute}
+/* entrata degli elementi */
+.slide.active .b:not([data-f]){animation:sale .7s var(--ease) var(--d) both}
+.b[data-f]{opacity:0;transform:translateY(24px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
+.b[data-f].vis{opacity:1;transform:none}
+@keyframes sale{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+/* colonna */
+.col-tit{font:700 53px/1 'League Spartan',Arial,sans-serif;color:var(--crema2)}
+.col-sub{font:400 32px/1.25 Montserrat,sans-serif;color:var(--salvia)}
+.tappa{display:flex;align-items:center;gap:26px;font-size:27px;color:var(--salvia)}
+.tappa .pal{width:58px;height:58px;border-radius:50%;border:2px solid var(--salvia);display:grid;place-items:center;
+font:700 24px 'League Spartan',sans-serif}
+.tappa.fatta{color:var(--crema2)}.tappa.fatta .pal{border-color:var(--crema2)}
+.tappa.on{color:var(--crema2);font-weight:700}.tappa.on .pal{background:var(--acc);border-color:var(--acc);color:var(--crema2);
+animation:pulsa 2.4s ease-in-out .9s infinite}
+@keyframes pulsa{0%,100%{box-shadow:0 0 0 0 rgba(46,158,87,.55)}50%{box-shadow:0 0 0 14px rgba(46,158,87,0)}}
+/* intestazione */
+.tit{font:700 48px/1.02 'League Spartan',Arial,sans-serif;color:var(--testo)}
+.tit.lungo{font-size:40px}.tit.grande{font-size:53px}
+.sopra{font-weight:700;font-size:20px;color:var(--acc)}
+.ind{border-radius:30px;display:grid;place-items:center;font-weight:700;font-size:17px;letter-spacing:.06em}
+.ind.obb{background:var(--verde);color:var(--crema2)}.ind.fac{background:var(--salvia);color:var(--verde)}
+.ind.non{background:#9AA19C;color:#fff}
+.slide.active .ind:not(.statico){animation:timbro .6s cubic-bezier(.3,1.6,.5,1) .55s both}
+@keyframes timbro{from{opacity:0;transform:scale(1.8) rotate(-6deg)}to{opacity:1;transform:none}}
+.ind.statico{position:relative;width:260px;height:48px;margin-bottom:34px}
+.fonte{font-size:14px;color:var(--grigio)}
+/* collegamenti invisibili e numerazione */
+[data-ap],[data-doc]{cursor:default}
+.b[data-f]:not(.vis){pointer-events:none}
+.numslide{font-size:14.7px;color:var(--grigio);text-align:right}
+/* approfondimenti */
+.ap-etich{font:700 20px 'League Spartan',sans-serif;color:var(--acc)}
+.ap-etich.chiara{display:block;color:var(--salvia);font-size:18.7px;margin-bottom:12px}
+.ap-cose{font-size:21.3px;line-height:1.38}
+.ap-pratica{background:var(--verde);border-radius:22px;padding:22px 29px;color:var(--crema2)}
+.ap-pratica p{font-weight:700;font-size:20.7px;line-height:1.38}
+.ap-linea{background:var(--salvia)}
+.ap-punti ul{list-style:none}
+.ap-punti li{font-size:20px;line-height:1.35;margin-bottom:12px;padding-left:22px;position:relative}
+.ap-punti li:before{content:'';position:absolute;left:0;top:11px;width:8px;height:8px;border-radius:50%;background:var(--acc)}
+/* blocchi */
+.nota{background:var(--salvia2);border-left:12px solid var(--acc);border-radius:10px;display:flex;align-items:center;
+padding:0 40px;font-weight:700;font-size:23px;line-height:1.3}
+.nota.scura{background:var(--verde);border-left:0;color:var(--crema2);font-size:24px}
+.card{background:#fff;border-radius:22px;box-shadow:0 6px 24px rgba(29,59,54,.07)}
+.pill{border-radius:40px;display:grid;place-items:center;font-weight:700;font-size:24px}
+.pill.scura{background:var(--verde);color:var(--crema2)}
+.pill.chiara{background:#fff;color:var(--testo);font-size:17px;box-shadow:0 3px 10px rgba(0,0,0,.05)}
+.domanda{font:700 40px 'League Spartan',sans-serif;color:var(--acc)}
+.etich{font-weight:700;font-size:24px;color:var(--grigio)}.etich.verde{font:700 32px 'League Spartan',sans-serif;color:var(--acc)}
+.riga{font-size:25px;display:flex;align-items:center}
+.didasc{text-align:center;font-size:19px;color:var(--grigio)}
+img.fit{width:100%;height:100%;object-fit:contain}
+img.cover{width:100%;height:100%;object-fit:cover}
+.slide.active img.galleggia{animation:galleggia 9s ease-in-out infinite alternate}
+@keyframes galleggia{from{transform:translateY(0) scale(1)}to{transform:translateY(-10px) scale(1.025)}}
+.obiettivo{padding:24px}.obiettivo .ico{width:91px;height:91px;float:left;margin-right:18px}
+.ob-nome{font:700 23px/1.1 'League Spartan',sans-serif;height:91px;display:flex;align-items:center}
+.ob-dom{clear:both;padding-top:16px;font-size:20.5px;line-height:1.3}
+.livello{border-radius:14px;display:grid;place-items:center;text-align:center;padding:0 30px}
+.livello div{display:flex;flex-direction:column;gap:6px}.livello b{font-size:27px}.livello span{font-size:19px}
+.livello.l0{background:var(--verde);color:var(--crema2)}.livello.l1{background:#4F7F6A;color:var(--crema2)}
+.livello.l2{background:var(--salvia);color:var(--verde)}
+.b.livello[data-f]{transform:translateY(-30px) scale(.96)}.b.livello[data-f].vis{transform:none}
+.sigla{animation:none}
+.slide.active .sigla{animation:riordina 1.6s var(--ease) calc(var(--d) + .4s) both}
+@keyframes riordina{from{opacity:0;transform:translate(var(--tx),var(--ty)) rotate(var(--rx)) scale(.85)}
+40%{opacity:1}to{opacity:1;transform:none}}
+.linea{background:var(--salvia);border-radius:4px}.slide.active .linea{animation:traccia 1.6s var(--ease) both;transform-origin:left}
+@keyframes traccia{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.punto{border-radius:50%;background:var(--acc)}.punto.futuro{background:#9AA19C}
+.anno{text-align:center;font:700 29px 'League Spartan',sans-serif}
+.evento{text-align:center;font-size:17px;line-height:1.3}
+.voce{border-bottom:2px solid var(--salvia);display:flex;gap:40px}
+.el-tit{flex:0 0 355px;font:700 28px/1.1 'League Spartan',sans-serif;color:var(--acc)}
+.el-txt{font-size:23px;line-height:1.35}
+.voce.stretta .el-txt{font-size:22px;line-height:1.3}
+.voce.evidenza{background:var(--verde);border-radius:14px;border-bottom:0;padding:14px 24px 0}
+.voce.evidenza .el-tit{flex-basis:331px;color:var(--crema2)}.voce.evidenza .el-txt{color:var(--crema2);font-weight:700}
+.nota p+p{margin-top:8px}
+.nota.lunga{font-size:20px;line-height:1.3;padding:0 36px}
+.colonna2{padding:34px}.dc-voce{display:flex;flex-direction:column;gap:6px;margin-bottom:44px}
+.dc-voce b{font-size:27px;color:var(--acc)}.dc-voce span{font-size:22px;line-height:1.35}
+.scheda{border-left:12px solid var(--acc);padding:24px 30px;display:flex;flex-direction:column;gap:10px}
+.scheda b{font-size:28px}.scheda span{font-size:20.5px;line-height:1.35}
+.punto-lat{border-left:12px solid var(--acc);padding-left:22px;display:flex;flex-direction:column;gap:6px}
+.punto-lat b{font-size:28px;color:var(--acc)}.punto-lat span{font-size:22.5px;line-height:1.35}
+.riga-prova{background:#fff;border-radius:12px;display:flex;align-items:center;padding:0 12px;gap:18px}
+.riga-prova .ico{width:67px;height:67px}.pr-nome{flex:0 0 300px;font:700 21px 'League Spartan',sans-serif}
+.pr-txt{font-size:21px}
+.clima{padding:10px 10px 22px;display:flex;flex-direction:column;overflow:hidden}
+.cl-img{height:264px;border-radius:14px;overflow:hidden}
+.slide.active .cl-img img{animation:kb 12s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.12) translate(-2%,-2%)}}
+.clima b{font:700 28px 'League Spartan',sans-serif;color:var(--acc);margin:18px 14px 8px}
+.clima p{font-size:18px;line-height:1.35;margin:0 14px}.clima p.prova{margin-top:auto;color:var(--grigio);font-size:17px}
+.errore{display:flex;align-items:center;gap:20px;padding:0 20px}
+.num{flex:0 0 58px;height:58px;border-radius:50%;background:var(--verde);color:var(--crema2);display:grid;place-items:center;
+font:700 24px 'League Spartan',sans-serif}
+.num.grande{flex-basis:78px;width:78px;height:78px;background:var(--acc);font-size:34px}
+.er{flex:1;font-weight:700;font-size:22px;line-height:1.25}
+.tag{background:var(--salvia2);border-radius:20px;padding:8px 16px;font-weight:700;font-size:15px;white-space:nowrap}
+.passo{padding:28px;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.passo b{font:700 29px 'League Spartan',sans-serif}.passo p{font-size:21px;line-height:1.35;flex:1}
+.messaggio{display:flex;align-items:center;gap:28px;font-weight:700;font-size:29px;line-height:1.3}
+.qr{padding:24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
+.qr img{width:274px;height:274px}.qr p{font-weight:700;font-size:18px;line-height:1.3}
+.qr.piccolo img{width:211px;height:211px}.qr.piccolo p{font-size:17px}
+.faq-punto{display:flex;gap:28px;font-size:29px;line-height:1.35}
+.pal-v{flex:0 0 29px;height:29px;border-radius:50%;background:var(--acc);margin-top:8px}
+.tabella table{width:100%;border-collapse:collapse;font-size:18.5px;background:#fff}
+.tabella th{background:var(--verde);color:var(--crema2);text-align:left;padding:14px}
+.tabella td{padding:12px 14px;border-bottom:1px solid var(--salvia2);vertical-align:top}
+.tabella tr:nth-child(odd) td{background:var(--salvia2)}
+/* copertina, programma, grazie */
+.ecomondo-grande{position:absolute;left:258px;top:61px;width:945px;height:227px;object-fit:contain;z-index:2}
+.cop-sfondo{position:absolute;left:657px;top:0;width:1263px;height:860px;overflow:hidden;opacity:.33}
+.cop-sfondo img{width:100%;height:100%;object-fit:cover;animation:kb 26s ease-in-out infinite alternate}
+.cop-box{background:var(--box);box-shadow:0 20px 60px rgba(0,0,0,.18)}
+.cop-tit{font:700 40px/1.12 'League Spartan',Arial,sans-serif;color:var(--crema2)}
+.cop-sub{color:var(--crema2);font-size:21px;line-height:1.4}.cop-sub .cop-data{margin-top:26px;font-weight:600}
+.prog{gap:18px;font-size:25px}.pn{color:var(--acc);font-weight:700;width:24px}
+.cv-tit{font:700 35px 'League Spartan',sans-serif;color:var(--crema2)}.cv{font-size:18.5px;line-height:1.45;color:var(--crema2)}
+.cv p{margin-bottom:12px}
+.marchio{position:absolute;left:656px;top:4px;width:1264px;height:868px;object-fit:contain;opacity:.42}
+.slide.active .marchio{animation:respira 8s ease-in-out infinite alternate}
+@keyframes respira{from{transform:scale(1)}to{transform:scale(1.03)}}
+.grazie-tit{font:700 75px/1.15 Montserrat,Arial,sans-serif;color:#FFFBEC}
+.cop-sfondo{-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+#aiuto{transition:opacity 1.5s}#aiuto.via{opacity:0}
+.regia{color:#8a8a8a}
+/* strumenti */
+#nero{position:fixed;inset:0;background:#000;display:none;z-index:50}
+#barra{position:fixed;left:0;bottom:0;height:5px;background:var(--acc);transition:width .4s;z-index:40}
+#note{position:fixed;left:2%;right:2%;bottom:3%;max-height:42%;overflow:auto;background:rgba(10,25,22,.94);color:#eef;
+padding:22px 28px;border-radius:14px;font-size:19px;line-height:1.5;display:none;z-index:45}
+#note h3{color:#7fd39a;font-size:15px;letter-spacing:.08em;margin:10px 0 4px}#note strong{color:#9fe3b5}
+#indice{position:fixed;inset:6% 18%;background:#fff;border-radius:16px;padding:30px 40px;overflow:auto;display:none;z-index:46;
+box-shadow:0 30px 80px rgba(0,0,0,.4)}
+#indice h2{font:700 30px 'League Spartan',sans-serif;margin-bottom:16px}
+#indice li{list-style:none;padding:10px 0;border-bottom:1px solid #e4e4e4;font-size:20px;cursor:pointer}
+#indice li span{display:inline-block;width:70px;color:var(--acc);font-weight:700}
+#aiuto{position:fixed;right:12px;top:10px;color:#9db;font-size:12px;opacity:.55;z-index:41}
+/* finestra relatore */
+body.relatore #stage,body.relatore #barra,body.relatore #aiuto{display:none}
+#rel{display:none;position:fixed;inset:0;background:#10201c;color:#e9f2ec;grid-template-columns:1.15fr 1fr;
+grid-template-rows:auto 1fr;gap:18px;padding:18px}
+#rel .sx{display:flex;flex-direction:column;gap:14px;min-height:0;overflow:auto}
+#rel .prev{aspect-ratio:16/9;width:100%;flex:none}
+body.relatore #rel{display:grid}
+#rel .testa{grid-column:1/3;display:flex;gap:30px;align-items:baseline;font-size:20px}
+#rel .crono{font:700 48px 'League Spartan',sans-serif;color:#7fd39a}
+#rel .prev{background:#000;border-radius:10px;position:relative;overflow:hidden}
+#rel .prev iframe{position:absolute;left:0;top:0;width:1920px;height:1080px;border:0;transform-origin:0 0;pointer-events:none}
+#rel .dx{display:flex;flex-direction:column;gap:12px;overflow:auto}
+#rel .att{background:#1f3a33;border-radius:10px;padding:14px 18px;font-size:23px;font-weight:700;color:#bff0cf}
+#rel .tx{font-size:20px;line-height:1.55}#rel .tx strong{color:#8fe0a8}
+#rel .sc{font-size:19px;color:#cde}#rel .ponte{font-size:20px;color:#ffd98a}
+#rel .pross{font-size:16px;color:#9ab}
+</style></head>
+<body>
+<div id="stage">
+<section class="slide copertina" data-id="s1" data-steps="0" data-hidden="0" data-group="" data-title="DNSH: il principio «Do No Significant Harm» e le sue applicazioni pratiche"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="ecomondo-grande" src="assets/img/logo-ecomondo.png" alt="Ecomondo">
+<div class="cop-sfondo"><img src="assets/img/01-copertina.webp" alt=""></div>
+<div class="b cop-box" style="left:614px;top:313px;width:939px;height:507px;--d:0.00s;"></div>
+<div class="b cop-tit" style="left:720px;top:341px;width:806px;height:221px;--d:0.30s;">DNSH: il principio «Do No Significant Harm» e le sue applicazioni pratiche</div>
+<div class="b cop-sub" style="left:720px;top:571px;width:806px;height:221px;--d:0.60s;"><p>Quando serve, che cosa si dimostra, come si progetta</p><p class="cop-data">Giovedì 5 novembre 2026 · ore 15:00<br>Matteo Oliveri — Te.A. Consulting, gruppo Ekofuture</p></div></div></section>
+<section class="slide programma" data-id="s2" data-steps="0" data-hidden="0" data-group="" data-title="DNSH in pratica"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b tit grande" style="left:754px;top:182px;width:864px;height:96px;--d:0.00s;">DNSH in pratica</div>
+<div class="b etich verde" style="left:754px;top:302px;width:576px;height:48px;--d:0.15s;">Programma</div>
+<div class="b riga prog" style="left:754px;top:365px;width:1008px;height:58px;--d:0.25s;"><span class="pn">1</span>Che cos'è e a quali domande risponde</div>
+<div class="b riga prog" style="left:754px;top:424px;width:1008px;height:58px;--d:0.35s;"><span class="pn">2</span>Norme frammentate: come orientarsi</div>
+<div class="b riga prog" style="left:754px;top:484px;width:1008px;height:58px;--d:0.45s;"><span class="pn">3</span>Quando è obbligatorio, quando no</div>
+<div class="b riga prog" style="left:754px;top:543px;width:1008px;height:58px;--d:0.55s;"><span class="pn">4</span>Un impianto in tre tappe: ente, bando, banca</div>
+<div class="b riga prog" style="left:754px;top:603px;width:1008px;height:58px;--d:0.65s;"><span class="pn">5</span>Il clima estremo diventa progetto</div>
+<div class="b riga prog" style="left:754px;top:662px;width:1008px;height:58px;--d:0.75s;"><span class="pn">6</span>Gli errori che costano il contributo</div>
+<div class="b cv-tit" style="left:72px;top:317px;width:518px;height:58px;--d:0.00s;">Matteo Oliveri</div>
+<div class="b cv" style="left:72px;top:389px;width:518px;height:442px;--d:0.20s;"><p>Dottore agronomo e consulente ambientale, tra i responsabili del settore Ambiente di Te.A. Consulting (gruppo Ekofuture).</p><p>Laurea magistrale con lode in Scienze e tecnologie per l'ambiente e il territorio (Milano-Bicocca); Ordine dei Dottori Agronomi e Forestali di Milano; tecnico competente in acustica ambientale.</p><p>Dal 2014 segue VIA, AIA, AUA, art. 208, cave e rifiuti; oggi anche verifiche DNSH e climatiche.</p></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">2 / 16</div></div></section>
+<section class="slide contenuto" data-id="s3" data-steps="7" data-hidden="0" data-group="" data-title="A chi è già arrivata una richiesta DNSH?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Partiamo da voi</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">A chi è già arrivata una richiesta DNSH?</div>
+<div class="b domanda" style="left:710px;top:216px;width:528px;height:67px;--d:0.00s;">E da chi?</div>
+<div class="b pill scura" data-f="1" style="left:710px;top:302px;width:163px;height:58px;--d:0.00s;">Ente</div>
+<div class="b pill scura" data-f="2" style="left:893px;top:302px;width:163px;height:58px;--d:0.00s;">Bando</div>
+<div class="b pill scura" data-f="3" style="left:1075px;top:302px;width:163px;height:58px;--d:0.00s;">Banca</div>
+<div class="b etich" data-f="4" style="left:710px;top:403px;width:538px;height:48px;--d:0.00s;">Il nostro impianto tipo</div>
+<div class="b riga" data-f="5" style="left:710px;top:456px;width:557px;height:58px;--d:0.00s;">1 · Si amplia: VIA e autorizzazione unica</div>
+<div class="b riga" data-f="6" style="left:710px;top:516px;width:557px;height:58px;--d:0.00s;">2 · Partecipa a un bando</div>
+<div class="b riga" data-f="7" style="left:710px;top:575px;width:557px;height:58px;--d:0.00s;">3 · Chiede un finanziamento</div>
+<div class="b " data-f="4" style="left:1277px;top:197px;width:586px;height:442px;--d:0.00s;"><img class="fit galleggia" src="assets/img/02-impianto-tipo.webp" alt=""></div>
+<div class="b didasc" data-f="4" style="left:1277px;top:648px;width:586px;height:77px;--d:0.00s;">Il nostro impianto tipo: recupero rifiuti, tre tappe</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">3 / 16</div></div></section>
+<section class="slide contenuto" data-id="s4" data-steps="7" data-hidden="0" data-group="" data-title="Sei obiettivi, sei domande"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Che cos'è</div>
+<div class="b sopra" style="left:710px;top:48px;width:902px;height:38px;--d:0.00s;">Do No Significant Harm — non arrecare un danno significativo</div>
+<div class="b tit" style="left:710px;top:101px;width:912px;height:106px;--d:0.00s;">Sei obiettivi, sei domande</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-852">Reg. (UE) 2020/852, artt. 9 e 17</span></div>
+<div class="b card obiettivo" data-f="1" style="left:710px;top:216px;width:365px;height:254px;--d:0.00s;"><img class="ico" src="assets/img/icona-1-mitigazione-tondo.webp" alt=""><div class="ob-nome">Mitigazione del clima</div><div class="ob-dom">Aumenta le emissioni di gas serra?</div></div>
+<div class="b card obiettivo" data-f="2" style="left:1104px;top:216px;width:365px;height:254px;--d:0.00s;"><img class="ico" src="assets/img/icona-2-adattamento-tondo.webp" alt=""><div class="ob-nome">Adattamento al clima</div><div class="ob-dom">Regge al clima di oggi e di domani, senza spostare il rischio su altri?</div></div>
+<div class="b card obiettivo" data-f="3" style="left:1498px;top:216px;width:365px;height:254px;--d:0.00s;"><img class="ico" src="assets/img/icona-3-acqua-tondo.webp" alt=""><div class="ob-nome">Acqua</div><div class="ob-dom">Mette a rischio acque superficiali, sotterranee o marine?</div></div>
+<div class="b card obiettivo" data-f="4" style="left:710px;top:492px;width:365px;height:254px;--d:0.00s;"><img class="ico" src="assets/img/icona-4-economia-circolare-tondo.webp" alt=""><div class="ob-nome">Economia circolare</div><div class="ob-dom">Spreca materia o produce rifiuti evitabili?</div></div>
+<div class="b card obiettivo" data-f="5" style="left:1104px;top:492px;width:365px;height:254px;--d:0.00s;"><img class="ico" src="assets/img/icona-5-inquinamento-tondo.webp" alt=""><div class="ob-nome">Inquinamento</div><div class="ob-dom">Aumenta le emissioni in aria, acqua o suolo?</div></div>
+<div class="b card obiettivo" data-f="6" style="left:1498px;top:492px;width:365px;height:254px;--d:0.00s;"><img class="ico" src="assets/img/icona-6-biodiversita-tondo.webp" alt=""><div class="ob-nome">Biodiversità</div><div class="ob-dom">Danneggia habitat e specie?</div></div>
+<div class="b nota" data-f="7" style="left:710px;top:754px;width:1152px;height:72px;--d:0.00s;"><div><p>Contribuire a un obiettivo non esonera dagli altri cinque. Per ciascuno serve un documento verificabile.</p></div></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">4 / 16</div></div></section>
+<section class="slide contenuto" data-id="s5" data-steps="4" data-hidden="0" data-group="norme" data-title="Tante fonti, una gerarchia"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Norme frammentate</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Tante fonti, una gerarchia</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-2026-73">Reg. delegato (UE) 2026/73, applicabile dal 01/01/2026</span> · <span class="lk" data-ap="ap-guida">Guida operativa DNSH, Circ. RGS 22/2024</span></div>
+<div data-ap="ap-852" class="b livello l0" data-f="1" style="left:998px;top:221px;width:576px;height:139px;--d:0.00s;"><div><b>Regolamenti UE</b><span>2020/852 (principio) · delegati 2021/2139, 2023/2486, 2026/73 (criteri tecnici)</span></div></div>
+<div class="b livello l1" data-f="2" style="left:854px;top:374px;width:864px;height:139px;--d:0.00s;"><div><b>Regole dei fondi</b><span>PNRR (Reg. 2021/241) · coesione (Reg. 2021/1060) · bandi regionali e nazionali</span></div></div>
+<div data-ap="ap-guida" class="b livello l2" data-f="3" style="left:710px;top:528px;width:1152px;height:139px;--d:0.00s;"><div><b>Strumenti operativi</b><span>Guida MEF-RGS (34 schede, checklist) · FAQ MASE · modulistica regionale</span></div></div>
+<div class="b nota" data-f="4" style="left:710px;top:691px;width:1152px;height:110px;--d:0.00s;"><div><p>In caso di conflitto prevale il regolamento. La base giuridica la decide lo strumento che vi finanzia.</p></div></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">5 / 16</div></div></section>
+<section class="slide contenuto" data-id="s5B" data-steps="1" data-hidden="1" data-group="norme" data-title="Un groviglio che si può riordinare"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Norme frammentate</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Un groviglio che si può riordinare</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Variante B della slide 5 (nascosta). Discorso identico alla variante A.</div>
+<div class="b " style="left:710px;top:216px;width:595px;height:451px;--d:0.00s;"><img class="fit" src="assets/img/03-groviglio-norme.webp" alt=""></div>
+<div class="b pill chiara sigla" style="left:1344px;top:226px;width:245px;height:62px;--d:0.10s;--rx:-4deg;--tx:-80px;--ty:-60px">Reg. 2020/852</div>
+<div class="b pill chiara sigla" style="left:1608px;top:226px;width:245px;height:62px;--d:0.17s;--rx:-3deg;--tx:-27px;--ty:11px">Reg. 2021/2139</div>
+<div class="b pill chiara sigla" style="left:1344px;top:314px;width:245px;height:62px;--d:0.24s;--rx:-2deg;--tx:26px;--ty:-38px">Reg. 2023/2486</div>
+<div class="b pill chiara sigla" style="left:1608px;top:314px;width:245px;height:62px;--d:0.31s;--rx:-1deg;--tx:79px;--ty:33px">Reg. 2026/73</div>
+<div class="b pill chiara sigla" style="left:1344px;top:402px;width:245px;height:62px;--d:0.38s;--rx:0deg;--tx:-28px;--ty:-16px">Reg. 2021/241</div>
+<div class="b pill chiara sigla" style="left:1608px;top:402px;width:245px;height:62px;--d:0.45s;--rx:1deg;--tx:25px;--ty:55px">Reg. 2021/1060</div>
+<div class="b pill chiara sigla" style="left:1344px;top:491px;width:245px;height:62px;--d:0.52s;--rx:2deg;--tx:78px;--ty:6px">Circ. RGS 22/2024</div>
+<div class="b pill chiara sigla" style="left:1608px;top:491px;width:245px;height:62px;--d:0.59s;--rx:3deg;--tx:-29px;--ty:-43px">FAQ MASE 2025</div>
+<div class="b pill chiara sigla" style="left:1344px;top:579px;width:245px;height:62px;--d:0.66s;--rx:4deg;--tx:24px;--ty:28px">Bandi FESR</div>
+<div class="b pill chiara sigla" style="left:1608px;top:579px;width:245px;height:62px;--d:0.73s;--rx:-4deg;--tx:77px;--ty:-21px">EBA/GL/2020/06</div>
+<div class="b nota" data-f="1" style="left:710px;top:691px;width:1152px;height:110px;--d:0.00s;"><div><p>Tante sigle, tre livelli: regolamenti UE → regole dei fondi → strumenti operativi.</p></div></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">5 / 16</div></div></section>
+<section class="slide contenuto" data-id="s5C" data-steps="1" data-hidden="1" data-group="norme" data-title="Sei anni di DNSH"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Norme frammentate</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Sei anni di DNSH</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Variante C della slide 5 (nascosta). Discorso identico alla variante A.</div>
+<div class="b linea" style="left:710px;top:356px;width:1152px;height:8px;--d:0.00s;"></div>
+<div class="b punto" style="left:773px;top:341px;width:38px;height:38px;--d:0.20s;"></div>
+<div class="b anno" style="left:710px;top:259px;width:165px;height:58px;--d:0.20s;">2020</div>
+<div class="b evento" style="left:715px;top:398px;width:155px;height:288px;--d:0.30s;">Reg. 2020/852: nasce il principio</div>
+<div class="b punto" style="left:938px;top:341px;width:38px;height:38px;--d:0.35s;"></div>
+<div class="b anno" style="left:875px;top:259px;width:165px;height:58px;--d:0.35s;">2021</div>
+<div class="b evento" style="left:880px;top:398px;width:155px;height:288px;--d:0.45s;">PNRR, criteri clima (2021/2139), prima Guida MEF, fondi coesione</div>
+<div class="b punto" style="left:1103px;top:341px;width:38px;height:38px;--d:0.50s;"></div>
+<div class="b anno" style="left:1040px;top:259px;width:165px;height:58px;--d:0.50s;">2023</div>
+<div class="b evento" style="left:1044px;top:398px;width:155px;height:288px;--d:0.60s;">Criteri su acqua, economia circolare, inquinamento, biodiversità (2023/2486)</div>
+<div class="b punto" style="left:1267px;top:341px;width:38px;height:38px;--d:0.65s;"></div>
+<div class="b anno" style="left:1204px;top:259px;width:165px;height:58px;--d:0.65s;">2024</div>
+<div data-ap="ap-guida" class="b evento" style="left:1209px;top:398px;width:155px;height:288px;--d:0.75s;">Guida MEF 3ª edizione: 34 schede</div>
+<div class="b punto" style="left:1432px;top:341px;width:38px;height:38px;--d:0.80s;"></div>
+<div class="b anno" style="left:1369px;top:259px;width:165px;height:58px;--d:0.80s;">2025</div>
+<div class="b evento" style="left:1373px;top:398px;width:155px;height:288px;--d:0.90s;">FAQ MASE; Omnibus sulla sostenibilità</div>
+<div class="b punto" style="left:1596px;top:341px;width:38px;height:38px;--d:0.95s;"></div>
+<div class="b anno" style="left:1533px;top:259px;width:165px;height:58px;--d:0.95s;">2026</div>
+<div class="b evento" style="left:1538px;top:398px;width:155px;height:288px;--d:1.05s;">Reg. 2026/73; fine del PNRR sul campo; Dir. 2026/470</div>
+<div class="b punto futuro" style="left:1761px;top:341px;width:38px;height:38px;--d:1.10s;"></div>
+<div class="b anno" style="left:1698px;top:259px;width:165px;height:58px;--d:1.10s;">2028+</div>
+<div class="b evento" style="left:1703px;top:398px;width:155px;height:288px;--d:1.20s;">Proposta di bilancio UE: una sola guida DNSH per tutto il bilancio</div>
+<div class="b nota" data-f="1" style="left:710px;top:691px;width:1152px;height:110px;--d:0.00s;"><div><p>Le regole cambiano ogni anno: conta la versione vigente alla data del bando.</p></div></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">5 / 16</div></div></section>
+<section class="slide contenuto" data-id="s6" data-steps="5" data-hidden="0" data-group="" data-title="Se un fondo pubblico lo richiama"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Quando è obbligatorio</div>
+<div class="b ind obb" style="left:710px;top:43px;width:259px;height:43px;--d:0.50s;">OBBLIGATORIO</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Se un fondo pubblico lo richiama</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-pnrr">Reg. (UE) 2021/241</span> · <span class="lk" data-ap="ap-coesione">Reg. (UE) 2021/1060, art. 9.4</span> · <span class="lk" data-ap="ap-pnrr">C/2026/2614</span> · <span class="lk" data-ap="ap-iper">DM 07/05/2026</span> · <span class="lk" data-ap="ap-2028">COM(2025) 545</span></div>
+<div data-ap="ap-pnrr" class="b voce stretta" data-f="1" style="left:710px;top:226px;width:1152px;height:110px;--d:0.00s;"><div class="el-tit">PNRR</div><div class="el-txt">Ha creato il metodo italiano: schede, checklist, prove. I fascicoli restano controllabili fino al 31/12/2031.</div></div>
+<div data-ap="ap-coesione" class="b voce stretta" data-f="2" style="left:710px;top:346px;width:1152px;height:110px;--d:0.00s;"><div class="el-tit">Fondi della coesione 2021-2027</div><div class="el-txt">Bandi regionali FESR ancora per anni. In Lombardia: Ri.Circo.Lo. e il nuovo bando sulla circolarità delle PMI.</div></div>
+<div data-ap="ap-iper" class="b voce stretta" data-f="3" style="left:710px;top:466px;width:1152px;height:110px;--d:0.00s;"><div class="el-tit">Strumenti nazionali</div><div class="el-txt">Va verificato misura per misura: c'è negli Accordi per l'innovazione, non nell'iperammortamento 2026.</div></div>
+<div data-ap="ap-2028" class="b voce evidenza" data-f="4" style="left:710px;top:571px;width:1152px;height:115px;--d:0.00s;"><div class="el-tit">Dal 2028</div><div class="el-txt">Proposta di bilancio UE 2028-2034: una sola guida DNSH per tutto il bilancio, con una lista chiusa di attività escluse. Negoziato in corso.</div></div>
+<div class="b nota" data-f="5" style="left:710px;top:706px;width:1152px;height:91px;--d:0.00s;"><div><p>Stesso impianto, obblighi diversi: decide il finanziamento.</p></div></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">6 / 16</div></div></section>
+<section class="slide contenuto" data-id="s7" data-steps="2" data-hidden="0" data-group="" data-title="Facoltativo non vuol dire inutile"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Quando è facoltativo</div>
+<div class="b ind fac" style="left:710px;top:43px;width:259px;height:43px;--d:0.50s;">FACOLTATIVO</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Facoltativo non vuol dire inutile</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-eba">EBA/GL/2020/06</span> · <span class="lk" data-ap="ap-omnibus">Dir. (UE) 2026/470 (Omnibus)</span> · <span class="lk" data-ap="ap-152">D.Lgs. 152/2006</span></div>
+<div class="b card colonna2" data-f="1" style="left:710px;top:216px;width:710px;height:590px;--d:0.00s;"><div class="ind fac statico">FACOLTATIVO</div><div class="dc-voce" data-ap="ap-eba"><b>Banche</b><span>Devono valutare il rischio ambientale di chi chiede credito (Linee guida EBA).</span></div><div class="dc-voce"><b>Clienti</b><span>Questionari ESG e richieste lungo la catena di fornitura.</span></div><div class="dc-voce" data-ap="ap-omnibus"><b>Reporting</b><span>Obbligatorio solo per i grandi gruppi, ma i dati li chiedono ai fornitori. Per le PMI c'è uno standard volontario (VSME).</span></div></div>
+<div class="b card colonna2" data-f="2" style="left:1450px;top:216px;width:413px;height:590px;--d:0.00s;"><div class="ind non statico">NON RICHIESTO</div><div class="dc-voce" data-ap="ap-152"><b>Autorizzazioni</b><span>VIA, AIA, AUA, art. 208: il DNSH non è un requisito, ma nella VIA il clima sì.</span></div></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">7 / 16</div></div></section>
+<section class="slide contenuto" data-id="s8" data-steps="5" data-hidden="0" data-group="" data-title="Sì: schede, checklist, relazione"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Esistono dei modelli?</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Sì: schede, checklist, relazione</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-guida">Circ. RGS n. 22 del 14/05/2024</span> · <span class="lk" data-ap="ap-faq-mase">FAQ MASE n. 9 e 16 (2025)</span></div>
+<div data-ap="ap-guida" class="b card scheda" data-f="1" style="left:710px;top:216px;width:562px;height:226px;--d:0.00s;"><b>34 schede</b><span>Guida operativa MEF-RGS, 3ª edizione: una scheda per tipo di intervento (cantieri, edifici, impianti rifiuti, fotovoltaico…)</span></div>
+<div class="b card scheda" data-f="2" style="left:1301px;top:216px;width:562px;height:226px;--d:0.00s;"><b>Checklist ex ante ed ex post</b><span>Una sul progetto, una a fine lavori. Ex post non sono ammessi «no».</span></div>
+<div class="b card scheda" data-f="3" style="left:710px;top:466px;width:562px;height:226px;--d:0.00s;"><b>Moduli regionali</b><span>I bandi FESR traducono il DNSH in schede proprie, in domanda e in rendicontazione.</span></div>
+<div data-ap="ap-adattamento" class="b card scheda" data-f="4" style="left:1301px;top:466px;width:562px;height:226px;--d:0.00s;"><b>Relazione di adattamento</b><span>L'analisi dei rischi climatici: serve anche quando il rischio è basso.</span></div>
+<div class="b nota" data-f="5" style="left:710px;top:710px;width:1152px;height:91px;--d:0.00s;"><div><p>Compilare la checklist non basta: a ogni risposta deve corrispondere un documento del progetto.</p></div></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">8 / 16</div></div></section>
+<section class="slide contenuto" data-id="s9" data-steps="3" data-hidden="0" data-group="" data-title="VIA e art. 208: il DNSH no, il clima sì"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Tappa 1</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">L'impianto si amplia</div>
+<div class="b tappa on" style="left:72px;top:509px;width:432px;height:58px;--d:0.42s;"><span class="pal">1</span>Ente</div>
+<div class="b tappa" style="left:72px;top:600px;width:432px;height:58px;--d:0.54s;"><span class="pal">2</span>Bando</div>
+<div class="b tappa" style="left:72px;top:691px;width:432px;height:58px;--d:0.66s;"><span class="pal">3</span>Banca</div>
+<div class="b ind non" style="left:710px;top:43px;width:259px;height:43px;--d:0.50s;">NON RICHIESTO</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">VIA e art. 208: il DNSH no, il clima sì</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-152">D.Lgs. 152/2006, Parte II, All. VII e art. 208</span> · <span class="lk" data-ap="ap-verifica-clima">Orientamenti UE 2021/C 373/01</span></div>
+<div class="b " style="left:710px;top:216px;width:547px;height:566px;--d:0.00s;"><img class="fit galleggia" src="assets/img/04-tappa1-autorizzazione.webp" alt=""></div>
+<div data-ap="ap-152" class="b punto-lat" data-f="1" style="left:1286px;top:235px;width:576px;height:163px;--d:0.00s;"><b>Criteri propri</b><span>La VIA segue il Codice dell'ambiente: il DNSH non è un requisito, ma lo studio deve valutare clima e vulnerabilità climatica.</span></div>
+<div data-ap="ap-verifica-clima" class="b punto-lat" data-f="2" style="left:1286px;top:427px;width:576px;height:163px;--d:0.00s;"><b>Le VIA statali</b><span>Il Ministero chiede sempre più spesso la verifica climatica, con gli stessi metodi del DNSH.</span></div>
+<div class="b punto-lat" data-f="3" style="left:1286px;top:619px;width:576px;height:163px;--d:0.00s;"><b>Gli studi di oggi</b><span>Emissioni, rumore, acque, clima, Natura 2000: sono le prove di domani.</span></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">9 / 16</div></div></section>
+<section class="slide contenuto" data-id="s10" data-steps="7" data-hidden="0" data-group="" data-title="Che cosa guardiamo nella relazione"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Tappa 2</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">L'impianto partecipa a un bando</div>
+<div class="b tappa fatta" style="left:72px;top:509px;width:432px;height:58px;--d:0.42s;"><span class="pal">1</span>Ente</div>
+<div class="b tappa on" style="left:72px;top:600px;width:432px;height:58px;--d:0.54s;"><span class="pal">2</span>Bando</div>
+<div class="b tappa" style="left:72px;top:691px;width:432px;height:58px;--d:0.66s;"><span class="pal">3</span>Banca</div>
+<div class="b ind obb" style="left:710px;top:43px;width:259px;height:43px;--d:0.50s;">OBBLIGATORIO</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Che cosa guardiamo nella relazione</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-guida">Guida operativa RGS, schede 5 e 17</span> · <span class="lk" data-ap="ap-coesione">Autorità ambientale Lombardia, programma FESR 2021-2027</span></div>
+<div class="b riga-prova" data-f="1" style="left:710px;top:211px;width:1152px;height:83px;--d:0.00s;"><img class="ico" src="assets/img/icona-1-mitigazione-tondo.webp" alt=""><div class="pr-nome">Mitigazione del clima</div><div class="pr-txt">Bilancio energetico ed emissioni, prima e dopo</div></div>
+<div data-ap="ap-adattamento" class="b riga-prova" data-f="2" style="left:710px;top:302px;width:1152px;height:83px;--d:0.00s;"><img class="ico" src="assets/img/icona-2-adattamento-tondo.webp" alt=""><div class="pr-nome">Adattamento al clima</div><div class="pr-txt">Relazione sui rischi climatici e soluzioni di progetto</div></div>
+<div class="b riga-prova" data-f="3" style="left:710px;top:394px;width:1152px;height:83px;--d:0.00s;"><img class="ico" src="assets/img/icona-3-acqua-tondo.webp" alt=""><div class="pr-nome">Acqua</div><div class="pr-txt">Autorizzazione allo scarico, gestione della prima pioggia</div></div>
+<div class="b riga-prova" data-f="4" style="left:710px;top:485px;width:1152px;height:83px;--d:0.00s;"><img class="ico" src="assets/img/icona-4-economia-circolare-tondo.webp" alt=""><div class="pr-nome">Economia circolare</div><div class="pr-txt">Formulari con operazioni R; macchine sostituite dismesse e documentate</div></div>
+<div class="b riga-prova" data-f="5" style="left:710px;top:576px;width:1152px;height:83px;--d:0.00s;"><img class="ico" src="assets/img/icona-5-inquinamento-tondo.webp" alt=""><div class="pr-nome">Inquinamento</div><div class="pr-txt">Autorizzazioni, migliori tecniche disponibili (BAT), modelli di emissioni e rumore</div></div>
+<div class="b riga-prova" data-f="6" style="left:710px;top:667px;width:1152px;height:83px;--d:0.00s;"><img class="ico" src="assets/img/icona-6-biodiversita-tondo.webp" alt=""><div class="pr-nome">Biodiversità</div><div class="pr-txt">Posizione rispetto a Natura 2000 e aree protette, VIncA se serve</div></div>
+<div class="b nota" data-f="7" style="left:710px;top:760px;width:1152px;height:65px;--d:0.00s;"><div><p>Sei domande, sei prove. Niente autodichiarazioni generiche.</p></div></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">10 / 16</div></div></section>
+<section class="slide contenuto" data-id="s11" data-steps="4" data-hidden="0" data-group="" data-title="Regge al clima di oggi e di domani?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Il clima estremo</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">diventa progetto</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Regge al clima di oggi e di domani?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-adattamento">Reg. (UE) 2021/2139, All. I, App. A</span> · <span class="lk" data-ap="ap-rr7">R.R. Lombardia 7/2017 (agg. R.R. 3/2025), artt. 8, 11, 12</span> · <span class="lk" data-ap="ap-dm2022">DM 26/07/2022</span> · <span class="lk" data-ap="ap-faq-mase">FAQ MASE n. 16</span></div>
+<div data-ap="ap-rr7" class="b card clima" data-f="1" style="left:710px;top:202px;width:365px;height:552px;--d:0.00s;"><div class="cl-img"><img class="cover" src="assets/img/07-clima-pioggia.webp" alt=""></div><b>Pioggia intensa</b><p>Invarianza idraulica: vasche su Tr 50 anni, verifica Tr 100, più le piogge previste dalle proiezioni. Stoccaggi coperti.</p><p class="prova"><strong>Prova:</strong> Progetto di invarianza, mappe PGRA</p></div>
+<div data-ap="ap-dm2022" class="b card clima" data-f="2" style="left:1104px;top:202px;width:365px;height:552px;--d:0.00s;"><div class="cl-img"><img class="cover" src="assets/img/08-clima-caldo-blackout.webp" alt=""></div><b>Caldo estremo</b><p>Cumuli più bassi, temperatura controllata, prevenzione incendi. Cabine e raffreddamento con un'unità di scorta.</p><p class="prova"><strong>Prova:</strong> Progetto antincendio, procedura estiva</p></div>
+<div class="b card clima" data-f="3" style="left:1498px;top:202px;width:365px;height:552px;--d:0.00s;"><div class="cl-img"><img class="cover" src="assets/img/12-clima-blackout.webp" alt=""></div><b>Blackout</b><p>Antincendio, pompe delle acque e biofiltro restano in funzione: motopompa, gruppo elettrogeno, pompe di riserva.</p><p class="prova"><strong>Prova:</strong> Schema dei carichi privilegiati, prove periodiche</p></div>
+<div class="b nota scura" data-f="4" style="left:710px;top:758px;width:1152px;height:67px;--d:0.00s;"><div><p>Un impianto che non regge al clima danneggia anche acqua e aria.</p></div></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">11 / 16</div></div></section>
+<section class="slide contenuto" data-id="s12" data-steps="3" data-hidden="0" data-group="" data-title="Nessun obbligo, ma la banca chiede"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Tappa 3</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">L'impianto va in banca</div>
+<div class="b tappa fatta" style="left:72px;top:509px;width:432px;height:58px;--d:0.42s;"><span class="pal">1</span>Ente</div>
+<div class="b tappa fatta" style="left:72px;top:600px;width:432px;height:58px;--d:0.54s;"><span class="pal">2</span>Bando</div>
+<div class="b tappa on" style="left:72px;top:691px;width:432px;height:58px;--d:0.66s;"><span class="pal">3</span>Banca</div>
+<div class="b ind fac" style="left:710px;top:43px;width:259px;height:43px;--d:0.50s;">FACOLTATIVO</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Nessun obbligo, ma la banca chiede</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-eba">EBA/GL/2020/06</span> · <span class="lk" data-ap="ap-2026-73">Reg. delegato (UE) 2026/73</span></div>
+<div class="b " style="left:710px;top:216px;width:547px;height:566px;--d:0.00s;"><img class="fit galleggia" src="assets/img/06-tappa3-banca.webp" alt=""></div>
+<div data-ap="ap-eba" class="b punto-lat" data-f="1" style="left:1286px;top:235px;width:576px;height:163px;--d:0.00s;"><b>La banca valuta</b><span>Il rischio ambientale di chi finanzia è un suo obbligo (Linee guida EBA).</span></div>
+<div class="b punto-lat" data-f="2" style="left:1286px;top:427px;width:576px;height:163px;--d:0.00s;"><b>Il tasso si muove</b><span>Nei prestiti legati alla sostenibilità può scendere, o salire se gli obiettivi mancano.</span></div>
+<div data-doc="assets/doc/2025-12-22-Documento-dialogo-sostenibilita-PMI-Banche-MEF.pdf" class="b punto-lat" data-f="3" style="left:1286px;top:619px;width:576px;height:163px;--d:0.00s;"><b>Le prove si riusano</b><span>Stesso dossier della tappa 2. Per le PMI c'è un questionario comune MEF-Banca d'Italia.</span></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">12 / 16</div></div></section>
+<section class="slide contenuto" data-id="s13" data-steps="1" data-hidden="0" data-group="" data-title="Sei errori ricorrenti"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Gli errori</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">che costano il contributo</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Sei errori ricorrenti</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-faq-mase">FAQ MASE n. 10, 13 e 16 (2025)</span> · <span class="lk" data-ap="ap-corte">Corte dei conti, delib. 46/2026/G</span></div>
+<div class="b card errore" style="left:710px;top:216px;width:562px;height:110px;--d:0.10s;"><span class="num">1</span><span class="er">Fermarsi alle emissioni e trascurare gli altri obiettivi</span><span class="tag">Tappa 2</span></div>
+<div class="b card errore" style="left:1301px;top:216px;width:562px;height:110px;--d:0.22s;"><span class="num">2</span><span class="er">Frasi generiche e autodichiarazioni</span><span class="tag">Tappa 2</span></div>
+<div class="b card errore" style="left:710px;top:346px;width:562px;height:110px;--d:0.34s;"><span class="num">3</span><span class="er">Checklist compilata a fine lavori</span><span class="tag">Tappa 2</span></div>
+<div data-ap="ap-adattamento" class="b card errore" style="left:1301px;top:346px;width:562px;height:110px;--d:0.46s;"><span class="num">4</span><span class="er">Relazione di adattamento mancante o copiata</span><span class="tag">Clima</span></div>
+<div class="b card errore" style="left:710px;top:475px;width:562px;height:110px;--d:0.58s;"><span class="num">5</span><span class="er">Varianti non riportate nel DNSH</span><span class="tag">Tappa 2</span></div>
+<div class="b card errore" style="left:1301px;top:475px;width:562px;height:110px;--d:0.70s;"><span class="num">6</span><span class="er">Formulari con operazioni D invece di R</span><span class="tag">Tappa 2</span></div>
+<div data-ap="ap-corte" class="b nota scura" data-f="1" style="left:710px;top:629px;width:1152px;height:144px;--d:0.00s;"><div><p>Corte dei conti, 2026: 15 progetti PNRR di teleriscaldamento esclusi per il DNSH, circa 106 mln € riassegnati.</p></div></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">13 / 16</div></div></section>
+<section class="slide contenuto" data-id="s14" data-steps="4" data-hidden="0" data-group="" data-title="Un metodo, non un modulo"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Perché Ekofuture</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Un metodo, non un modulo</div>
+<div class="b card passo" data-f="1" style="left:710px;top:216px;width:365px;height:374px;--d:0.00s;"><span class="num grande">1</span><b>La domanda giusta</b><p>Da dove nasce la richiesta e che cosa serve davvero.</p><span class="tag">Tappa 1</span></div>
+<div class="b card passo" data-f="2" style="left:1104px;top:216px;width:365px;height:374px;--d:0.00s;"><span class="num grande">2</span><b>Il DNSH all'inizio</b><p>Le soluzioni diventano scelte di progetto, non rattoppi.</p><span class="tag">Tappa 2 e clima</span></div>
+<div class="b card passo" data-f="3" style="left:1498px;top:216px;width:365px;height:374px;--d:0.00s;"><span class="num grande">3</span><b>Un dossier riusabile</b><p>Le stesse prove per ente, bando e banca.</p><span class="tag">Tappa 3</span></div>
+<div class="b nota lunga" data-f="4" style="left:710px;top:614px;width:1152px;height:211px;--d:0.00s;"><div><p>Una regia unica su acqua, aria, rifiuti, rumore, biodiversità e clima: consulenza tecnica con Te.A. Consulting ed EcoRicerche; consulenza legale, aggiornamento normativo e formazione con TuttoAmbiente, per orientarsi in norme frammentate e in continuo cambiamento.</p><p>E supporto tecnico e amministrativo per preparare e presentare le domande di contributo.</p></div></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">14 / 16</div></div></section>
+<section class="slide contenuto" data-id="s15" data-steps="4" data-hidden="0" data-group="" data-title="Tre messaggi"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Da portare a casa</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Tre messaggi</div>
+<div class="b messaggio" data-f="1" style="left:710px;top:226px;width:806px;height:96px;--d:0.00s;"><span class="num grande">1</span><span>Ente, bando o banca: il DNSH cambia peso a seconda dell'interlocutore.</span></div>
+<div class="b messaggio" data-f="2" style="left:710px;top:374px;width:806px;height:96px;--d:0.00s;"><span class="num grande">2</span><span>Si progetta all'inizio, con le prove. Non si compila alla fine.</span></div>
+<div class="b messaggio" data-f="3" style="left:710px;top:523px;width:806px;height:96px;--d:0.00s;"><span class="num grande">3</span><span>È il linguaggio comune di fondi, banche e clienti.</span></div>
+<div class="b card qr" data-f="4" style="left:1541px;top:216px;width:322px;height:470px;--d:0.00s;"><img src="assets/img/qr-scheda.png" alt=""><p>Inquadra il QR: ricevi via mail la scheda di autoverifica (PDF)</p></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">15 / 16</div></div></section>
+<section class="slide grazie" data-id="s16" data-steps="0" data-hidden="0" data-group="" data-title="Grazie per l&#x27;attenzione"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><img class="marchio" src="assets/img/marchio-ekofuture.png" alt="">
+<div class="b grazie-tit" style="left:86px;top:374px;width:528px;height:211px;--d:0.00s;">Grazie per<br>l’attenzione</div>
+<div class="b card qr piccolo" style="left:1267px;top:509px;width:269px;height:341px;--d:0.30s;"><img src="assets/img/qr-scheda.png" alt=""><p>Scheda di autoverifica<br>(via mail, PDF)</p></div>
+<div class="b card qr piccolo" style="left:1574px;top:509px;width:269px;height:341px;--d:0.30s;"><img src="assets/img/qr-code-EK.png" alt=""><p>Ekofuture<br>contatti</p></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">16 / 16</div></div></section>
+<section class="slide contenuto" data-id="faq1" data-steps="0" data-hidden="1" data-group="faq" data-title="Regime 1 e Regime 2 del PNRR: che cosa cambia?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 1</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Regime 1 e Regime 2 del PNRR: che cosa cambia?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-guida">Guida operativa RGS, 3ª ed.</span> · <span class="lk" data-ap="ap-faq-mase">FAQ MASE 2025</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:119px;--d:0.15s;font-size:29.3px"><span class="pal-v"></span>Sono i due livelli con cui la Guida operativa RGS applica il DNSH alle misure del PNRR; i bandi regionali li usano solo se richiamano la Guida.</div>
+<div class="b faq-punto" style="left:710px;top:364px;width:1152px;height:119px;--d:0.30s;font-size:29.3px"><span class="pal-v"></span>Regime 1: la misura deve dare un contributo sostanziale a un obiettivo (per esempio il clima); criteri più stringenti, con un miglioramento misurabile.</div>
+<div class="b faq-punto" style="left:710px;top:484px;width:1152px;height:80px;--d:0.45s;font-size:29.3px"><span class="pal-v"></span>Regime 2: basta non arrecare danno ai sei obiettivi.</div>
+<div class="b faq-punto" style="left:710px;top:565px;width:1152px;height:119px;--d:0.60s;font-size:29.3px"><span class="pal-v"></span>Il regime è fissato per ogni misura dalla Guida (Mappature 1 e 2), non lo sceglie il beneficiario.</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 1 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq2" data-steps="0" data-hidden="1" data-group="faq" data-title="Quale scheda si applica al mio progetto?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 2</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Quale scheda si applica al mio progetto?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-guida">Guida operativa RGS, 3ª ed.</span> · <span class="lk" data-ap="ap-faq-mase">FAQ MASE M2C1 I1.1</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:119px;--d:0.15s;font-size:29.3px"><span class="pal-v"></span>La mappatura indicata dal bando è orientativa: va verificata sul progetto reale.</div>
+<div class="b faq-punto" style="left:710px;top:364px;width:1152px;height:119px;--d:0.30s;font-size:29.3px"><span class="pal-v"></span>Impianto di recupero rifiuti: scheda 17, quasi sempre con la scheda 5 (cantiere).</div>
+<div class="b faq-punto" style="left:710px;top:484px;width:1152px;height:80px;--d:0.45s;font-size:29.3px"><span class="pal-v"></span>Sola fornitura di macchine: verifica a livello organizzativo e gestionale.</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 2 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq3" data-steps="0" data-hidden="1" data-group="faq" data-title="DNSH e CAM sono la stessa cosa?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 3</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">DNSH e CAM sono la stessa cosa?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-guida">Guida operativa RGS, App. 2</span> · <span class="lk" data-ap="ap-faq-mase">FAQ MASE 2025</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:80px;--d:0.15s;font-size:29.3px"><span class="pal-v"></span>No: i CAM sono criteri per gli appalti pubblici (art. 57 D.Lgs. 36/2023).</div>
+<div class="b faq-punto" style="left:710px;top:326px;width:1152px;height:80px;--d:0.30s;font-size:29.3px"><span class="pal-v"></span>Possono bastare per il Regime 2, non sempre per il Regime 1.</div>
+<div class="b faq-punto" style="left:710px;top:407px;width:1152px;height:119px;--d:0.45s;font-size:29.3px"><span class="pal-v"></span>L'Appendice 2 della Guida indica, punto per punto, se un requisito è CAM o DNSH.</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 3 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq4" data-steps="0" data-hidden="1" data-group="faq" data-title="Checklist DNSH: e se un requisito non è rispettato?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 4</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Checklist DNSH: e se un requisito non è rispettato?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-faq-mase">FAQ MASE n. 9 e 13 (2025)</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:119px;--d:0.15s;font-size:29.3px"><span class="pal-v"></span>Ogni scheda della Guida ha due checklist: ex ante, sul progetto prima dei lavori; ex post, a lavori finiti.</div>
+<div class="b faq-punto" style="left:710px;top:364px;width:1152px;height:119px;--d:0.30s;font-size:29.3px"><span class="pal-v"></span>Ex ante si può rispondere «no» solo spiegando nel commento che la lacuna è sanabile ed entro quando sarà sanata.</div>
+<div class="b faq-punto" style="left:710px;top:484px;width:1152px;height:80px;--d:0.45s;font-size:29.3px"><span class="pal-v"></span>Ex post un «no» significa progetto non conforme.</div>
+<div class="b faq-punto" style="left:710px;top:565px;width:1152px;height:80px;--d:0.60s;font-size:29.3px"><span class="pal-v"></span>Conseguenza possibile: perdita o restituzione del contributo.</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 4 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq5" data-steps="0" data-hidden="1" data-group="faq" data-title="Chi firma e chi risponde?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 5</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Chi firma e chi risponde?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-guida">Guida operativa RGS</span> · <span class="lk" data-ap="ap-coesione">modulistica regionale FESR</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:80px;--d:0.15s;font-size:29.3px"><span class="pal-v"></span>Il beneficiario dichiara il rispetto del DNSH e ne risponde.</div>
+<div class="b faq-punto" style="left:710px;top:326px;width:1152px;height:80px;--d:0.30s;font-size:29.3px"><span class="pal-v"></span>I tecnici firmano le relazioni e le asseverazioni di loro competenza.</div>
+<div class="b faq-punto" style="left:710px;top:407px;width:1152px;height:80px;--d:0.45s;font-size:29.3px"><span class="pal-v"></span>Alcuni moduli regionali chiedono espressamente la firma di un tecnico.</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 5 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq6" data-steps="0" data-hidden="1" data-group="faq" data-title="E dopo il PNRR?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 6</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">E dopo il PNRR?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-coesione">Reg. (UE) 2021/1060, art. 63</span> · <span class="lk" data-ap="ap-coesione">Reg. (UE) 2025/1914</span> · <span class="lk" data-ap="ap-coesione">DGR Lombardia XII/6538/2026</span> · <span class="lk" data-ap="ap-2028">COM(2025) 545</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:108px;--d:0.15s;font-size:25.3px"><span class="pal-v"></span>Coesione 2021-2027: spese ammesse fino al 2029, per molti programmi fino al 2030; in Italia in gran parte ancora da spendere.</div>
+<div class="b faq-punto" style="left:710px;top:354px;width:1152px;height:108px;--d:0.30s;font-size:25.3px"><span class="pal-v"></span>Bandi regionali FESR con DNSH: in Lombardia anche il nuovo bando sulla circolarità delle PMI.</div>
+<div class="b faq-punto" style="left:710px;top:463px;width:1152px;height:108px;--d:0.45s;font-size:25.3px"><span class="pal-v"></span>Proposta di bilancio UE 2028-2034: una sola guida DNSH, valutazione per ogni attività dei piani, lista chiusa di attività escluse (rifiuti: discariche, TMB, inceneritori, con deroghe).</div>
+<div class="b faq-punto" style="left:710px;top:572px;width:1152px;height:75px;--d:0.60s;font-size:25.3px"><span class="pal-v"></span>Negoziato aperto: vertice straordinario del Consiglio europeo il 26-27/11/2026.</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 6 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq7" data-steps="0" data-hidden="1" data-group="faq" data-title="Omnibus: che cosa cambia per le PMI?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 7</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Omnibus: che cosa cambia per le PMI?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-omnibus">Dir. (UE) 2026/470</span> · <span class="lk" data-ap="ap-2026-73">Reg. delegato (UE) 2026/73</span> · <span class="lk" data-ap="ap-omnibus">Racc. (UE) 2025/1710</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:141px;--d:0.15s;font-size:25.3px"><span class="pal-v"></span>«Omnibus» è il pacchetto UE che semplifica gli obblighi di sostenibilità delle imprese: per rendicontazione (CSRD) e dovere di diligenza è la Dir. (UE) 2026/470; la tassonomia è stata semplificata a parte (Reg. delegato 2026/73).</div>
+<div class="b faq-punto" style="left:710px;top:387px;width:1152px;height:108px;--d:0.30s;font-size:25.3px"><span class="pal-v"></span>Report di sostenibilità obbligatorio solo oltre 1.000 dipendenti e 450 mln € di fatturato, dagli esercizi che iniziano nel 2027.</div>
+<div class="b faq-punto" style="left:710px;top:496px;width:1152px;height:75px;--d:0.45s;font-size:25.3px"><span class="pal-v"></span>Limite alle informazioni che le grandi imprese possono chiedere ai fornitori più piccoli.</div>
+<div class="b faq-punto" style="left:710px;top:572px;width:1152px;height:108px;--d:0.60s;font-size:25.3px"><span class="pal-v"></span>Per le PMI uno standard volontario (VSME), utile per rispondere con un solo documento a clienti e banche.</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 7 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq8" data-steps="0" data-hidden="1" data-group="faq" data-title="Vale anche per un bando piccolo?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 8</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Vale anche per un bando piccolo?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-guida">Guida operativa RGS, Introduzione</span> · <span class="lk" data-ap="ap-faq-mase">FAQ MASE n. 16</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:80px;--d:0.15s;font-size:29.3px"><span class="pal-v"></span>L'obbligo dipende dal bando, non dall'importo.</div>
+<div class="b faq-punto" style="left:710px;top:326px;width:1152px;height:80px;--d:0.30s;font-size:29.3px"><span class="pal-v"></span>Cambia la profondità: sotto i 10 mln € l'analisi climatica è sintetica.</div>
+<div class="b faq-punto" style="left:710px;top:407px;width:1152px;height:80px;--d:0.45s;font-size:29.3px"><span class="pal-v"></span>Ma resta scritta e con prove: niente autodichiarazioni generiche.</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 8 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq9" data-steps="0" data-hidden="1" data-group="faq" data-title="Devo maggiorare le piogge di progetto?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 9</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Devo maggiorare le piogge di progetto?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-rr7">R.R. Lombardia 7/2017, art. 11</span> · <span class="lk" data-ap="ap-adattamento">Reg. (UE) 2021/2139, App. A</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:119px;--d:0.15s;font-size:29.3px"><span class="pal-v"></span>Per legge no: il R.R. 7/2017 usa le piogge di ARPA o dati ufficiali più aggiornati.</div>
+<div class="b faq-punto" style="left:710px;top:364px;width:1152px;height:80px;--d:0.30s;font-size:29.3px"><span class="pal-v"></span>Nel DNSH sì, come scelta motivata: verifica con le proiezioni climatiche.</div>
+<div class="b faq-punto" style="left:710px;top:446px;width:1152px;height:80px;--d:0.45s;font-size:29.3px"><span class="pal-v"></span>In altri Paesi è già una regola (Regno Unito, maggiorazioni per bacino).</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 9 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq10" data-steps="0" data-hidden="1" data-group="faq" data-title="Sotto i 10 milioni che cosa basta? E i terremoti?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 10</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Sotto i 10 milioni che cosa basta? E i terremoti?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-guida">Guida operativa RGS, p. 16</span> · <span class="lk" data-ap="ap-verifica-clima">Comunicazione 2021/C 373/01</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:80px;--d:0.15s;font-size:29.3px"><span class="pal-v"></span>Sotto 10 mln €: analisi sintetica (Appendice 1 della Guida RGS).</div>
+<div class="b faq-punto" style="left:710px;top:326px;width:1152px;height:80px;--d:0.30s;font-size:29.3px"><span class="pal-v"></span>Infrastrutture oltre 10 mln €: metodo degli Orientamenti UE 2021/C 373/01.</div>
+<div class="b faq-punto" style="left:710px;top:407px;width:1152px;height:119px;--d:0.45s;font-size:29.3px"><span class="pal-v"></span>Sempre scritta e riferita al sito. I terremoti non sono un pericolo climatico: si trattano con le NTC 2018.</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 10 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq11" data-steps="0" data-hidden="1" data-group="faq" data-title="Transizione 5.0 e iperammortamento?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 11</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Transizione 5.0 e iperammortamento?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-iper">Art. 38 D.L. 19/2024</span> · <span class="lk" data-ap="ap-iper">L. 199/2025</span> · <span class="lk" data-ap="ap-iper">DM 07/05/2026</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:119px;--d:0.15s;font-size:29.3px"><span class="pal-v"></span>Transizione 5.0 prevedeva il DNSH ed escludeva discariche, inceneritori e TMB; chiusa il 06/11/2025.</div>
+<div class="b faq-punto" style="left:710px;top:364px;width:1152px;height:80px;--d:0.30s;font-size:29.3px"><span class="pal-v"></span>L'iperammortamento 2026-2028: il DM del 07/05/2026 non richiama il DNSH.</div>
+<div class="b faq-punto" style="left:710px;top:446px;width:1152px;height:119px;--d:0.45s;font-size:29.3px"><span class="pal-v"></span>Regola: va verificato misura per misura, leggendo la base giuridica dello strumento.</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 11 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq12" data-steps="0" data-hidden="1" data-group="faq" data-title="Verifica climatica, DNSH e tagging: che differenza c&#x27;è?"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ 12</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Verifica climatica, DNSH e tagging: che differenza c'è?</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;"><span class="lk" data-ap="ap-verifica-clima">Orientamenti UE 2021/C 373/01</span> · <span class="lk" data-ap="ap-adattamento">Reg. (UE) 2021/2139, App. A</span> · <span class="lk" data-ap="ap-pnrr">Reg. (UE) 2021/241, All. VI</span> · <span class="lk" data-ap="ap-coesione">Reg. (UE) 2021/1060, All. I</span></div>
+<div class="b faq-punto" style="left:710px;top:245px;width:1152px;height:119px;--d:0.15s;font-size:29.3px"><span class="pal-v"></span>Verifica climatica: sul singolo progetto infrastrutturale; impronta di carbonio e resilienza al clima.</div>
+<div class="b faq-punto" style="left:710px;top:364px;width:1152px;height:119px;--d:0.30s;font-size:29.3px"><span class="pal-v"></span>DNSH: non danneggiare i sei obiettivi; per l'adattamento usa lo stesso metodo (Appendice A).</div>
+<div class="b faq-punto" style="left:710px;top:484px;width:1152px;height:119px;--d:0.45s;font-size:29.3px"><span class="pal-v"></span>Tagging: contabilità della spesa per il clima, con coefficienti 0, 40 o 100% per intervento.</div>
+<div class="b faq-punto" style="left:710px;top:603px;width:1152px;height:119px;--d:0.60s;font-size:29.3px"><span class="pal-v"></span>Nel PNRR il tagging della misura decide il regime DNSH: contributo sostanziale, Regime 1.</div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">FAQ 12 / 12</div></div></section>
+<section class="slide contenuto" data-id="faq-sit" data-steps="0" data-hidden="1" data-group="faq" data-title="Sei situazioni, sei risposte"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Domande</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">Riserva</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Sei situazioni, sei risposte</div>
+<div class="b tabella" style="left:710px;top:216px;width:1152px;height:595px;--d:0.00s;"><table><tr><th>Situazione</th><th>DNSH</th><th>Che cosa serve</th></tr><tr><td>Impianto di recupero inerti che rinnova le macchine con un bando regionale</td><td><b>Obbligatorio</b></td><td>Scheda DNSH del bando, dati su rifiuti, emissioni e acqua, dismissione documentata</td></tr><tr><td>Impianto industriale con Contratto di sviluppo finanziato con fondi europei</td><td><b>Obbligatorio</b></td><td>Relazione DNSH sui sei obiettivi, dati di processo</td></tr><tr><td>Infrastruttura finanziata con FESR</td><td><b>Obbligatorio</b></td><td>Moduli regionali di verifica climatica e DNSH, firma del tecnico</td></tr><tr><td>Cantiere edile finanziato dal PNRR</td><td><b>Obbligatorio</b></td><td>Scheda cantiere, CAM, formulari con operazioni R</td></tr><tr><td>Impianto in VIA o AIA senza fondi pubblici</td><td><b>Non richiesto</b></td><td>Nella VIA clima e vulnerabilità climatica sì; gli studi sono le prove di domani</td></tr><tr><td>Impresa che chiede un finanziamento green o redige il report di sostenibilità</td><td><b>Facoltativo</b></td><td>Prove riusate da autorizzazioni e monitoraggi</td></tr></table></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Riserva</div></div></section>
+<section class="slide contenuto" data-id="ap-852" data-steps="0" data-hidden="1" data-group="ap" data-title="Il Regolamento Tassonomia"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">Reg. (UE) 2020/852</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Il Regolamento Tassonomia</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Reg. (UE) 2020/852 del 18/06/2020, GUUE L 198 del 22/06/2020 · artt. 3, 9 e 17</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Il regolamento europeo che definisce quando un'attività economica è sostenibile dal punto di vista ambientale. È la fonte del principio DNSH.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Il DNSH nasce qui, ma diventa obbligatorio solo quando un fondo o un bando lo richiama nelle sue regole.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Art. 9: sei obiettivi ambientali. Mitigazione e adattamento al clima, acqua, economia circolare, inquinamento, biodiversità ed ecosistemi.</li><li>Art. 3: un'attività è sostenibile se contribuisce in modo sostanziale ad almeno un obiettivo, non danneggia gli altri, rispetta le garanzie minime e i criteri tecnici.</li><li>Art. 17: definisce che cosa significa «danno significativo» per ciascuno dei sei obiettivi.</li><li>I criteri tecnici, attività per attività, sono nei regolamenti delegati 2021/2139 e 2023/2486, aggiornati dal 2026/73.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 1 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-2026-73" data-steps="0" data-hidden="1" data-group="ap" data-title="L&#x27;Omnibus sulla tassonomia"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">Reg. delegato (UE) 2026/73</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">L'Omnibus sulla tassonomia</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Reg. delegato (UE) 2026/73 del 04/07/2025, GUUE 08/01/2026, applicabile dal 01/01/2026</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Regolamento della Commissione che semplifica la tassonomia: meno dati da pubblicare e qualche criterio DNSH alleggerito. Si applica dal 01/01/2026.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>L'impianto del DNSH non cambia: cambiano i dati da pubblicare e alcuni criteri puntuali. Per un bando vale la versione che il bando richiama.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Soglia di materialità del 10%: le attività che insieme pesano meno del 10% di fatturato, investimenti o spese operative possono non essere valutate.</li><li>Prospetti ridotti: il 64% di dati in meno per le imprese, l'89% per le banche.</li><li>DNSH sulle sostanze chimiche (Appendice C): abrogato il paragrafo legato all'art. 57 del REACH; restano le sostanze estremamente preoccupanti della Candidate List.</li><li>Banche: le imprese non soggette alla rendicontazione di sostenibilità escono dal denominatore del loro indicatore green (GAR).</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 2 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-guida" data-steps="0" data-hidden="1" data-group="ap" data-title="La Guida operativa DNSH"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">Circ. RGS n. 22/2024</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">La Guida operativa DNSH</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Guida operativa per il rispetto del principio DNSH, 3ª ed., allegata alla Circ. RGS n. 22 del 14/05/2024</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Il manuale della Ragioneria generale dello Stato per applicare il DNSH agli interventi del PNRR. È diventato il modello italiano, ripreso anche da molti bandi regionali.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Anche quando il bando non la impone, è il riferimento più completo per capire che cosa dimostrare e con quali documenti.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Terza edizione, allegata alla circolare RGS n. 22 del 14/05/2024.</li><li>34 schede tecniche, una per tipo di intervento: cantieri (scheda 5), impianti di recupero rifiuti (scheda 17), edifici, fotovoltaico e così via.</li><li>Per ogni scheda due checklist: ex ante sul progetto, ex post a fine lavori.</li><li>Due regimi: Regime 1 se la misura dà un contributo sostanziale a un obiettivo, Regime 2 se basta non arrecare danno.</li><li>Appendice 1: analisi sintetica dei rischi climatici per gli interventi sotto i 10 milioni di euro.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 3 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-pnrr" data-steps="0" data-hidden="1" data-group="ap" data-title="PNRR: regole e chiusura"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">Reg. (UE) 2021/241</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">PNRR: regole e chiusura</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Reg. (UE) 2021/241 del 12/02/2021, artt. 5 e 18, all. VI · Comunicazione della Commissione C/2026/2614</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Il regolamento del Dispositivo per la ripresa e la resilienza, da cui nasce il PNRR. È il primo strumento che ha fatto del DNSH una condizione per i pagamenti.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Chi ha un progetto PNRR deve tenere completo il fascicolo DNSH: checklist, relazioni, formulari, certificati. I controlli continuano.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Il Dispositivo finanzia solo misure che rispettano il principio DNSH.</li><li>Almeno il 37% del piano alla transizione verde, misurato con i coefficienti 0, 40 o 100% dell'allegato VI.</li><li>Traguardi e obiettivi da completare entro il 31/08/2026; calendario di chiusura della Commissione (C/2026/2614): pagamenti entro il 31/12/2026.</li><li>Documentazione DNSH su ReGiS e documenti da conservare almeno fino al 31/12/2031.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 4 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-coesione" data-steps="0" data-hidden="1" data-group="ap" data-title="Fondi della coesione e FESR"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">Reg. (UE) 2021/1060</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Fondi della coesione e FESR</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Reg. (UE) 2021/1060, artt. 6, 9, 63 e 73 · Reg. (UE) 2021/1058 · Reg. (UE) 2025/1914 · Cohesion Open Data, 02/11/2026</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Le regole comuni dei fondi europei che riducono le differenze di sviluppo tra le regioni: FESR, FSE+, Fondo di coesione, JTF, FEAMPA. In Italia arrivano soprattutto come bandi regionali FESR.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Ogni Regione traduce il DNSH nei propri moduli: leggere il bando e i suoi allegati, e preparare prove, non dichiarazioni.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Art. 9, par. 4: gli obiettivi dei fondi si perseguono nel rispetto del principio «non arrecare un danno significativo».</li><li>Dotazione italiana 2021-2027: 42,7 miliardi di euro di fondi UE, 74,8 con il cofinanziamento; pagamenti UE al 22,9% (dati della Commissione al 02/11/2026).</li><li>Spese ammesse fino al 31/12/2029 (art. 63), fino al 31/12/2030 per i programmi che hanno riassegnato almeno il 10% con la revisione intermedia (Reg. 2025/1914).</li><li>FESR: il 30% del contributo agli obiettivi climatici (art. 6); verifica climatica per le infrastrutture con durata di almeno 5 anni (art. 73).</li><li>Lombardia: l'Autorità ambientale chiede di escludere le autodichiarazioni generiche; il bando sulla circolarità delle PMI (DGR XII/6538/2026) prevede il DNSH nei criteri.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 5 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-iper" data-steps="0" data-hidden="1" data-group="ap" data-title="Incentivi nazionali e DNSH"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">DM 07/05/2026</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Incentivi nazionali e DNSH</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Art. 38 D.L. 19/2024 · L. 199/2025 · D.L. 38/2026 · DM 07/05/2026</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Gli strumenti nazionali non seguono una regola unica: il DNSH si applica solo se la norma dello strumento lo richiama.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Prima di candidarsi: cercare nel decreto e negli allegati «DNSH», «danno significativo» o «Reg. 2020/852».</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Transizione 5.0 (art. 38 D.L. 19/2024): prevedeva il DNSH ed escludeva tra l'altro discariche, inceneritori e TMB; chiusa per esaurimento delle risorse il 06/11/2025.</li><li>Iperammortamento 2026-2028 (L. 199/2025, D.L. 38/2026): il decreto attuativo del 07/05/2026 non richiama il DNSH; investimenti fino al 30/09/2028.</li><li>Accordi per l'innovazione: il soggetto gestore verifica il DNSH secondo le istruzioni del Ministero.</li><li>Contratti di sviluppo: il DNSH c'era nella linea Net Zero finanziata dal PNRR, sportello chiuso il 21/04/2026.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 6 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-2028" data-steps="0" data-hidden="1" data-group="ap" data-title="Il DNSH nel bilancio UE 2028-2034"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">COM(2025) 545</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Il DNSH nel bilancio UE 2028-2034</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">COM(2025) 545 del 16/07/2025, artt. 4, 5 e 13, All. III · COM(2025) 565 · Reg. (UE, Euratom) 2024/2509, art. 33</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Proposta della Commissione del 16/07/2025 per il regolamento che segue spesa e risultati del prossimo bilancio europeo. Rende il DNSH una regola uniforme per tutti i programmi.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Negoziato aperto: nessun accordo al Consiglio europeo del 15-16/10/2026, vertice straordinario il 26-27/11/2026. La direzione è un DNSH più uniforme e più diffuso.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Art. 5: una guida DNSH unica, che distingue le attività sempre conformi da quelle che arrecano danno e non sono finanziabili.</li><li>Art. 13: gli Stati presentano una valutazione DNSH per ogni attività dei Piani nazionali e regionali.</li><li>Art. 4: almeno il 35% del bilancio a clima e ambiente; il 43% per i Piani nazionali e regionali (Allegato III).</li><li>Documento della Commissione del 15/07/2026: lista chiusa di attività escluse; per i rifiuti discariche, TMB per i rifiuti urbani e inceneritori, con deroghe.</li><li>Oggi il Regolamento finanziario 2024/2509 richiama già il DNSH, «ove fattibile e appropriato».</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 7 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-eba" data-steps="0" data-hidden="1" data-group="ap" data-title="Le Linee guida EBA"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">EBA/GL/2020/06</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Le Linee guida EBA</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">EBA/GL/2020/06 del 29/05/2020 · EBA/GL/2025/01 dell'08/01/2025 · Tavolo per la finanza sostenibile, Documento PMI-Banche (dicembre 2024, agg. dicembre 2025)</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">L'EBA è l'Autorità bancaria europea. Le sue linee guida si rivolgono alle banche e alle autorità di vigilanza, che devono applicarle o spiegare perché non lo fanno.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>L'obbligo è della banca, non dell'impresa. Ma chi arriva con dati e prove già pronti risponde una volta sola e negozia meglio.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Concessione e monitoraggio dei prestiti (EBA/GL/2020/06), in applicazione dal 30/06/2021.</li><li>La banca valuta i fattori ambientali, sociali e di governance del cliente e il suo rischio climatico (§§ 126 e 146).</li><li>Mappe di rischio per settore e analisi più approfondite nei settori ad alto rischio (§ 127).</li><li>Prestiti green: verifica dei criteri e controllo dell'uso dei fondi (§ 58).</li><li>Gestione dei rischi ESG (EBA/GL/2025/01): dall'11/01/2026, dall'11/01/2027 al più tardi per le banche piccole.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 8 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-omnibus" data-steps="0" data-hidden="1" data-group="ap" data-title="Omnibus: rendicontazione e PMI"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">Dir. (UE) 2026/470</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Omnibus: rendicontazione e PMI</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Dir. (UE) 2026/470 del 24/02/2026, GUUE 26/02/2026 · Racc. (UE) 2025/1710 · A.S. n. 2025, art. 6</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">La direttiva che semplifica la rendicontazione di sostenibilità (CSRD) e riduce il numero di imprese obbligate al report.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Quasi nessuna PMI sarà obbligata, ma clienti grandi e banche chiedono dati. VSME e Documento PMI-Banche servono a rispondere a tutti con un solo insieme di informazioni.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Dagli esercizi che iniziano dal 01/01/2027: obbligo solo oltre 1.000 dipendenti e 450 milioni di euro di fatturato netto, insieme.</li><li>Tetto alle informazioni che le grandi imprese possono chiedere ai fornitori con meno di 1.000 dipendenti.</li><li>Per le PMI uno standard volontario basato sul VSME (Raccomandazione UE 2025/1710).</li><li>Nel report, la quota di attività «allineate» alla tassonomia presuppone il rispetto del DNSH.</li><li>Recepimento in Italia entro il 19/03/2027: delega nel disegno di legge di delegazione europea 2026, all'esame del Senato.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 9 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-152" data-steps="0" data-hidden="1" data-group="ap" data-title="VIA, art. 208 e clima"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">D.Lgs. 152/2006</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">VIA, art. 208 e clima</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">D.Lgs. 152/2006, Parte II, All. VII (sostituito dall'art. 22 D.Lgs. 104/2017) · art. 208</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Il Codice dell'ambiente disciplina la VIA (Parte II) e l'autorizzazione unica degli impianti di gestione dei rifiuti (art. 208). Il DNSH non è tra i loro criteri, il clima sì.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Gli studi della VIA (emissioni, rumore, acque, clima, Natura 2000) sono le prove da riusare quando arriva un bando o una banca.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Allegato VII alla Parte II, punto 5, lett. f): lo studio di impatto ambientale descrive l'impatto del progetto sul clima e la sua vulnerabilità al cambiamento climatico.</li><li>Il punto 4 dello stesso allegato include i «fattori climatici» tra quelli da descrivere.</li><li>Art. 208: autorizzazione unica per impianti di smaltimento e recupero, con criteri propri e senza richiamo al DNSH.</li><li>Nelle VIA statali il Ministero chiede sempre più spesso la verifica climatica, secondo gli Indirizzi 2023 e gli Orientamenti UE 2021/C 373/01.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 10 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-verifica-clima" data-steps="0" data-hidden="1" data-group="ap" data-title="La verifica climatica"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">2021/C 373/01</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">La verifica climatica</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Comunicazione 2021/C 373/01, GUUE C 373 del 16/09/2021 · Reg. (UE) 2021/1060, art. 2 p.to 42 e art. 73 · Indirizzi DPCoe-MASE-JASPERS del 06/10/2023</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Il processo che rende un'infrastruttura coerente con la neutralità climatica al 2050 e resistente al clima che cambia. Il Reg. 2021/1060 la chiama «immunizzazione dagli effetti del clima».</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Chi prepara una VIA o un progetto della coesione ha già fatto metà del lavoro DNSH sul clima: conviene impostare le due analisi insieme.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Due pilastri, ciascuno con screening e analisi dettagliata: neutralità (mitigazione) e resilienza (adattamento).</li><li>Neutralità: impronta di carbonio con il metodo BEI oltre 20.000 t CO₂eq/anno; costo ombra del carbonio di 250 €/t al 2030 e 800 €/t al 2050 (prezzi 2016).</li><li>Per discariche e inceneritori di rifiuti urbani gli Orientamenti indicano l'impronta di carbonio come sempre necessaria.</li><li>Resilienza: sensibilità, esposizione e vulnerabilità, poi rischio e misure di adattamento. È lo stesso metodo della relazione di adattamento DNSH.</li><li>Obbligatoria per le infrastrutture della coesione con durata di almeno 5 anni; in Italia Indirizzi DPCoe-MASE del 06/10/2023 e Linee guida MASE-DPCoe del 2025 per VIA e VAS.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 11 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-faq-mase" data-steps="0" data-hidden="1" data-group="ap" data-title="Le FAQ del Ministero dell&#x27;ambiente"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">FAQ MASE 2025</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Le FAQ del Ministero dell'ambiente</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">MASE, «Il principio DNSH nelle misure PNRR di titolarità del MASE — F.A.Q.», V 0.1 del 22/10/2025</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Documento del Ministero dell'ambiente con 21 domande e risposte sul DNSH nelle misure PNRR di sua competenza. Utile anche fuori dal PNRR.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Per il Ministero l'analisi di adattabilità è «l'elemento più innovativo del principio DNSH» e va sempre considerata.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>FAQ 9: nella checklist ex post un «no» rende il progetto non conforme.</li><li>FAQ 10, errori più comuni: risposte generiche, adempimento formale o tardivo, documenti mancanti, analisi di adattabilità assente, checklist non aggiornata dopo una variante.</li><li>FAQ 13: servono documenti probatori; il mancato rispetto può costare il contributo o la restituzione delle somme ricevute.</li><li>FAQ 16: la relazione sui rischi climatici va prodotta anche quando l'opera non presenta rischi significativi.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 12 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-adattamento" data-steps="0" data-hidden="1" data-group="ap" data-title="La relazione di adattamento"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">Reg. (UE) 2021/2139, App. A</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">La relazione di adattamento</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Reg. delegato (UE) 2021/2139, All. I, Appendice A · Guida operativa RGS, App. 1 · FAQ MASE n. 16</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Il documento che dimostra che l'opera regge al clima di oggi e dei prossimi decenni, senza spostare il rischio su altri. Il criterio è nell'Appendice A, richiamata per tutte le attività della tassonomia.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Va scritta anche quando il rischio è basso (FAQ MASE 16). Sotto i 10 milioni basta un'analisi sintetica (Guida RGS, App. 1); per le grandi infrastrutture si seguono gli Orientamenti 2021/C 373/01.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>a) Screening: quali pericoli climatici dell'elenco (temperatura, vento, acqua, suolo; cronici e acuti) possono colpire l'attività nel suo ciclo di vita.</li><li>b) Valutazione del rischio e della vulnerabilità per i pericoli rilevanti.</li><li>c) Soluzioni di adattamento, fisiche o gestionali, che riducono i rischi principali.</li><li>Proiezioni climatiche proporzionate alla durata: sotto i 10 anni alla scala più ridotta possibile; oltre, alla massima risoluzione, con scenari a 10-30 anni per i grandi investimenti.</li><li>Opere nuove: soluzioni realizzate prima dell'avvio; esistenti: entro 5 anni, con un piano. Niente maladattamento; considerare le soluzioni basate sulla natura.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 13 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-rr7" data-steps="0" data-hidden="1" data-group="ap" data-title="Invarianza idraulica in Lombardia"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">R.R. Lombardia 7/2017</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Invarianza idraulica in Lombardia</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">R.R. Lombardia n. 7/2017 coordinato con il R.R. n. 3/2025 (BURL n. 14 suppl. del 01/04/2025), artt. 3, 8, 11 e 12</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Il regolamento regionale che impone di non aumentare le portate scaricate quando si impermeabilizza una superficie. Aggiornato dal R.R. 3/2025.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Il regolamento non chiede di maggiorare le piogge per il clima futuro: nel DNSH la verifica con le proiezioni climatiche è una scelta motivata che rafforza la relazione.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Portata massima allo scarico: 10 l/s per ettaro in area A, 20 l/s per ettaro nelle aree B e C (art. 8).</li><li>Volumi minimi di invaso da 400 a 800 m³ per ettaro impermeabile, secondo l'area (art. 12).</li><li>Dimensionamento con tempo di ritorno di 50 anni, verifica con 100 anni (art. 11).</li><li>Piogge di progetto di ARPA Lombardia o dati ufficiali più aggiornati; svuotamento entro 48 ore.</li><li>Si applica anche a piazzali e parcheggi oltre 150 m² (art. 3).</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 14 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-dm2022" data-steps="0" data-hidden="1" data-group="ap" data-title="Prevenzione incendi negli impianti rifiuti"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">DM 26/07/2022</div>
+<div class="b tit lungo" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Prevenzione incendi negli impianti rifiuti</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">DM Interno 26/07/2022 (GU n. 187 dell'11/08/2022) · Circ. MATTM n. 1121 del 21/01/2019 · D.L. 113/2018, art. 26-bis</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">La regola tecnica di prevenzione incendi per gli impianti di stoccaggio e trattamento dei rifiuti. Esclude i rifiuti inerti.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Non è una norma DNSH: è una delle prove con cui un impianto rifiuti risponde al rischio di caldo estremo nella relazione di adattamento.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>Pubblicata in GU n. 187 dell'11/08/2022, in vigore dal 09/11/2022.</li><li>Si applica insieme al Codice di prevenzione incendi.</li><li>Circolare MATTM n. 1121/2019 sugli stoccaggi: controllo di temperatura e umidità, cumuli di altezza limitata, aree separate, presidi antincendio, formazione.</li><li>Piano di emergenza interna a carico del gestore (art. 26-bis D.L. 113/2018).</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 15 / 16</div></div></section>
+<section class="slide contenuto" data-id="ap-corte" data-steps="0" data-hidden="1" data-group="ap" data-title="Il DNSH nei controlli"><div class="frame"><div class="colbg"></div><div class="crema"></div><img class="logo eko" src="assets/img/logo-ekofuture.png" alt="Ekofuture"><img class="logo ta" src="assets/img/logo-tuttoambiente.png" alt="TuttoAmbiente"><img class="logo eco" src="assets/img/logo-ecoricerche.png" alt="EcoRicerche"><img class="logo tea" src="assets/img/logo-tea.png" alt="Te.A. Consulting"><img class="logo ecomondo" src="assets/img/logo-ecomondo.png" alt="Ecomondo"><div class="b col-tit" style="left:72px;top:120px;width:518px;height:250px;--d:0.00s;">Approfondimento</div>
+<div class="b col-sub" style="left:72px;top:202px;width:518px;height:115px;--d:0.15s;">Delib. 46/2026/G</div>
+<div class="b tit" style="left:710px;top:96px;width:912px;height:106px;--d:0.00s;">Il DNSH nei controlli</div>
+<div class="b fonte" style="left:710px;top:837px;width:1152px;height:34px;--d:0.00s;">Corte dei conti, deliberazione n. 46/2026/G del 07/05/2026 · Corte dei conti europea, RS 21/2022, 07/2023, 14/2024</div>
+<div class="b ap-etich" style="left:710px;top:216px;width:490px;height:38px;--d:0.00s;">Che cos'è</div>
+<div class="b ap-cose" style="left:710px;top:259px;width:490px;height:250px;--d:0.10s;">Deliberazione della Corte dei conti del 07/05/2026 sull'attuazione di una misura del PNRR.</div>
+<div class="b ap-pratica" style="left:710px;top:538px;width:490px;height:269px;--d:0.30s;"><span class="ap-etich chiara">In pratica per un’impresa</span><p>Il DNSH non è una formalità: si controlla anche dopo il finanziamento, e un'esclusione si traduce in risorse perse.</p></div>
+<div class="b ap-linea" style="left:1224px;top:216px;width:5px;height:590px;--d:0.00s;"></div>
+<div class="b ap-etich" style="left:1253px;top:216px;width:610px;height:38px;--d:0.00s;">Che cosa dice</div>
+<div class="b ap-punti" style="left:1253px;top:264px;width:610px;height:538px;--d:0.20s;"><ul><li>15 progetti di teleriscaldamento esclusi per il mancato rispetto del DNSH: erano alimentati in via primaria a combustibili fossili.</li><li>Circa 106 milioni di euro riassegnati ad altri progetti con lo scorrimento delle graduatorie.</li><li>Corte dei conti europea, relazioni speciali 21/2022, 07/2023 e 14/2024: applicazione del DNSH ancora disomogenea.</li></ul></div>
+<div class="b numslide" style="left:1574px;top:1027px;width:288px;height:34px;--d:0.00s;">Approfondimento 16 / 16</div></div></section>
+</div>
+<div id="barra"></div><div id="nero"></div><div id="note"></div><div id="indice"></div>
+<div id="aiuto">→ avanti · ← indietro · F schermo intero · V variante · Q FAQ e approfondimenti · B nero</div>
+<div id="rel">
+  <div class="testa"><span class="crono" id="r-crono">00:00</span><span id="r-pos"></span><span id="r-min"></span>
+  <span class="pross" id="r-pross"></span><span style="margin-left:auto;font-size:14px;color:#8a9">T azzera il cronometro · Q FAQ · V variante</span></div>
+  <div class="sx"><div class="prev"><iframe title="anteprima"></iframe></div>
+  <div class="sc" id="r-sc"></div><div class="ponte" id="r-po"></div></div>
+  <div class="dx"><div class="att" id="r-att"></div><div class="tx" id="r-tx"></div></div>
+</div>
+<script>window.NOTE={};</script>
+<script>
+const S=[...document.querySelectorAll('.slide')], N=window.NOTE||{};
+const stage=document.getElementById('stage'), barra=document.getElementById('barra');
+const relatore=location.hash==='#relatore', anteprima=location.hash.startsWith('#anteprima');
+const canale=('BroadcastChannel' in window)?new BroadcastChannel('dnsh-ecomondo'):null;
+let principale=S.filter(s=>s.dataset.hidden==='0');
+let seq=principale, pos=0, step=0, ritorno=null, t0=null;
+function scala(){const k=Math.min(innerWidth/1920,innerHeight/1080);
+  stage.style.transform=`translate(${-960*k}px,${-540*k}px) scale(${k})`;}
+addEventListener('resize',scala);scala();
+function corrente(){return seq[pos];}
+function applica(manda=true){
+  S.forEach(s=>s.classList.remove('active'));const s=corrente();s.classList.add('active');
+  s.querySelectorAll('[data-f]').forEach(e=>e.classList.toggle('vis',+e.dataset.f<=step));
+  const i=principale.indexOf(s);barra.style.width=(i<0?100:(i/(principale.length-1))*100)+'%';
+  aggiornaNote();if(manda)invia({id:s.dataset.id,step});if(relatore)aggiornaRel();}
+let finRel=null;
+function invia(m){try{if(canale)canale.postMessage(m);}catch(e){}
+  try{if(window.opener)window.opener.postMessage(m,'*');}catch(e){}
+  try{if(finRel&&!finRel.closed)finRel.postMessage(m,'*');}catch(e){}}
+addEventListener('message',m=>{if(m.data&&m.data.id)vai(m.data.id,m.data.step);});
+function vai(id,st=0){let i=seq.findIndex(s=>s.dataset.id===id);
+  if(i<0){const s=S.find(x=>x.dataset.id===id);if(!s)return;seq=s.dataset.hidden==='1'?S.filter(x=>x.dataset.group===s.dataset.group&&x.dataset.hidden==='1'):principale;i=seq.indexOf(s);}
+  pos=i;step=st;applica(false);}
+function avanti(){if(!t0)t0=Date.now();const max=+corrente().dataset.steps;
+  if(step<max){step++;applica();}else if(pos<seq.length-1){pos++;step=0;applica();}}
+function indietro(){if(step>0){step--;applica();}else if(pos>0){pos--;step=+corrente().dataset.steps;applica();}}
+function variante(){const s=corrente();if(s.dataset.group!=='norme')return;
+  const g=S.filter(x=>x.dataset.group===s.dataset.group);const n=g[(g.indexOf(s)+1)%g.length];
+  principale=principale.map(x=>x===s?n:x);seq=principale;pos=seq.indexOf(n);step=0;applica();}
+function apriIndice(){const el=document.getElementById('indice');
+  if(el.style.display==='block'){el.style.display='none';return;}
+  const lista=g=>S.filter(s=>s.dataset.group===g).map((s,i)=>`<li data-id="${s.dataset.id}" data-g="${g}"><span>${i+1}</span>${s.dataset.title}</li>`).join('');
+  el.innerHTML='<h2>Domande di riserva</h2><ul>'+lista('faq')+'</ul><h2>Approfondimenti</h2><ul>'+lista('ap')+'</ul>';
+  el.style.display='block';
+  el.querySelectorAll('li').forEach(li=>li.onclick=()=>{el.style.display='none';
+    if(li.dataset.g==='ap'){apri(li.dataset.id);return;}
+    ritorno=ritorno||corrente().dataset.id;vai(li.dataset.id);applica();});}
+function esci(){document.getElementById('indice').style.display='none';
+  if(ritorno){seq=principale;vai(ritorno,+S.find(x=>x.dataset.id===ritorno).dataset.steps);ritorno=null;applica();}}
+/* approfondimenti: si aprono da un riferimento e si torna esattamente al punto di partenza */
+let daAp=null;
+function apri(id){if(corrente().dataset.group!=='ap')daAp={seq,pos,step};vai(id);applica();}
+function tornaDaAp(){if(!daAp){esci();return;}seq=daAp.seq;pos=daAp.pos;step=daAp.step;daAp=null;applica();}
+function aggiornaNote(){const n=N[corrente().dataset.id],el=document.getElementById('note');
+  const sez=n?[['ATTACCO',n.attacco],['TESTO',n.testo],['SCALETTA',n.scaletta],['PONTE',n.ponte],['COLLEGAMENTI NASCOSTI',n.link]]
+    .filter(x=>x[1]).map(x=>`<h3>${x[0]}</h3>${x[1]}`).join(''):'';
+  el.innerHTML=sez||'<em>Nessuna nota per questa slide.</em>';}
+document.addEventListener('keydown',e=>{const k=e.key;
+  if(['ArrowRight','PageDown',' ','Enter','ArrowDown'].includes(k)){e.preventDefault();avanti();}
+  else if(['ArrowLeft','PageUp','Backspace','ArrowUp'].includes(k)){e.preventDefault();indietro();}
+  else if(k==='Home'){pos=0;step=0;applica();}else if(k==='End'){pos=seq.length-1;step=0;applica();}
+  else if(k==='f'||k==='F'||k==='F5'){e.preventDefault();document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+  else if(k==='n'||k==='N'){const el=document.getElementById('note');el.style.display=el.style.display==='block'?'none':'block';}
+  else if(k==='b'||k==='B'||k==='.'){const el=document.getElementById('nero');el.style.display=el.style.display==='block'?'none':'block';}
+  else if(k==='v'||k==='V'){variante();}
+  else if(k==='q'||k==='Q'){apriIndice();}
+  else if(k==='Escape'){if(corrente().dataset.group==='ap')tornaDaAp();else esci();}
+  else if(k==='t'||k==='T'){t0=Date.now();}
+  else if((k==='p'||k==='P')&&!relatore){finRel=window.open(location.pathname+'#relatore','relatore','width=1400,height=850');
+    setTimeout(()=>invia({id:corrente().dataset.id,step}),800);}});
+document.addEventListener('click',e=>{if(relatore||e.target.closest('#indice'))return;
+  const a=e.target.closest('[data-ap]'),d=e.target.closest('[data-doc]');
+  if(corrente().dataset.group==='ap'){tornaDaAp();return;}
+  if(a){apri(a.dataset.ap);return;}
+  if(d){window.open(d.dataset.doc,'_blank');return;}
+  avanti();});
+if(canale)canale.onmessage=m=>{if(m.data.id&&!anteprima){vai(m.data.id,m.data.step);}};
+/* telefono: scorrere con il dito verso sinistra = avanti, verso destra = indietro (il tocco resta «avanti») */
+let tx=null,ty=null,swipe=false;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;swipe=false;},{passive:true});
+addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;tx=null;
+  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){swipe=true;if(corrente().dataset.group==='ap'){tornaDaAp();return;}dx<0?avanti():indietro();}});
+document.addEventListener('click',e=>{if(swipe){e.stopImmediatePropagation();swipe=false;}},true);
+/* finestra relatore */
+function aggiornaRel(){const s=corrente(),n=N[s.dataset.id]||{};const fr=document.querySelector('#rel iframe');
+  try{fr.contentWindow.postMessage({id:s.dataset.id,step},'*');}catch(e){}
+  document.getElementById('r-att').innerHTML=n.attacco||'—';document.getElementById('r-tx').innerHTML=n.testo||'';
+  document.getElementById('r-sc').innerHTML=n.scaletta||'';document.getElementById('r-po').innerHTML=n.ponte?'→ '+n.ponte:'';
+  const i=principale.indexOf(s),nx=principale[i+1];
+  document.getElementById('r-pos').textContent=i<0?'Slide di riserva':`Slide ${i+1} di ${principale.length} · passo ${step}/${s.dataset.steps}`;
+  document.getElementById('r-pross').textContent=nx?'Prossima: '+nx.dataset.title:'Fine';
+  document.getElementById('r-min').textContent=n.min?`Tempo previsto ${n.min} · fine slide ${n.fine}`:'';}
+window.vaiDa=(id,st)=>{vai(id,st);};
+if(relatore){document.body.classList.add('relatore');
+  const fr=document.querySelector('#rel iframe');fr.src=location.pathname+'#anteprima';
+  const pv=document.querySelector('#rel .prev');const sc=()=>{const k=Math.min(pv.clientWidth/1920,pv.clientHeight/1080);fr.style.transform=`scale(${k})`;};
+  addEventListener('resize',sc);setTimeout(sc,50);fr.onload=()=>aggiornaRel();
+  setInterval(()=>{const c=document.getElementById('r-crono');if(!t0){c.textContent='00:00';return;}
+    const s=Math.floor((Date.now()-t0)/1000);c.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+    c.style.color=s>1200?'#ff8a7a':(s>1080?'#ffd98a':'#7fd39a');},500);}
+if(anteprima){document.getElementById('aiuto').style.display='none';}
+setTimeout(()=>document.getElementById('aiuto').classList.add('via'),8000);
+applica(false);
+</script>
+</body></html>
